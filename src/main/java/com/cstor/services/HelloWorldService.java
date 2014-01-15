@@ -1,14 +1,20 @@
 package com.cstor.services;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import org.codehaus.jackson.map.ObjectMapper;
 
 import com.cstor.model.Account;
 
@@ -39,6 +45,28 @@ public class HelloWorldService {
         }
         
         return lists;
+    }
+    
+    @POST
+    public void setAccount(Account ac, @Context HttpServletRequest request) {
+        System.out.println(ac);
+    }
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/add")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String setAcount(InputStream is) {
+        if (is != null) {
+            System.out.println("not null");
+        }
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            mapper.readValue(is, Account.class); 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "succes";
     }
  
 }

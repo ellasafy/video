@@ -31,6 +31,20 @@ public class JerseyClient {
             e.printStackTrace();
         }
         
+        Account ac = new Account();
+        ac.setId(888);
+        ac.setName("name");
+        String ss = "";
+        try {
+          ss = mapper.writeValueAsString(ac);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        Response responses = client.target("http://localhost:9013/video/rest/hello/add")
+                .request().post(Entity.json(ss));
+        System.out.println(responses);
+        
     }
 
 }
